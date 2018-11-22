@@ -1,9 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * SerialPortExample.java
+ * Copyright (C) 2011 Kimmo Tuukkanen
+ * 
+ * This file is part of Java Marine API.
+ * <http://ktuukkan.github.io/marine-api/>
+ * 
+ * Java Marine API is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
+ * 
+ * Java Marine API is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+ * for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Java Marine API. If not, see <http://www.gnu.org/licenses/>.
  */
-package test;
+package example;
 
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
@@ -13,14 +28,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Enumeration;
+
 import net.sf.marineapi.nmea.event.SentenceEvent;
 import net.sf.marineapi.nmea.event.SentenceListener;
 import net.sf.marineapi.nmea.io.SentenceReader;
-import net.sf.marineapi.nmea.sentence.GGASentence;
 import net.sf.marineapi.nmea.sentence.SentenceValidator;
+
 /**
- *
- * @author Hanna Nabil
+ * Serial port example using GNU/RXTX libraries (see readme.txt). Scans through
+ * all COM ports and seeks for NMEA 0183 data with default settings (4800
+ * baud, 8 data bits, 1 stop bit and no parity). If NMEA data is found, starts
+ * printing out all sentences the device is broadcasting.
+ * 
+ * Notice that on Linux you may need to set read/write privileges on correct
+ * port (e.g. <code>sudo chmod 666 /dev/ttyUSB0<code>) or add your user in
+ * dialout group before running this example.
+ *  
+ * @author Kimmo Tuukkanen
  */
 public class SerialPortExample implements SentenceListener {
 
@@ -63,11 +87,7 @@ public class SerialPortExample implements SentenceListener {
 	 */
 	public void sentenceRead(SentenceEvent event) {
 		// here we receive each sentence read from the port
-		//System.out.println(event.getSentence());
-                System.out.print("lol");
-                GGASentence s = (GGASentence) event.getSentence();
-		// Do something with sentence data..
-		System.out.println(s.getPosition());
+		System.out.println(event.getSentence());
 	}
 
 	/**
@@ -79,51 +99,47 @@ public class SerialPortExample implements SentenceListener {
 	private SerialPort getSerialPort() {
 		try {
 			Enumeration<?> e = CommPortIdentifier.getPortIdentifiers();
-                        System.out.println(e.toString());
+
 			while (e.hasMoreElements()) {
 				CommPortIdentifier id = (CommPortIdentifier) e.nextElement();
-                               
-				if (id.getPortType() == CommPortIdentifier.PORT_SERIAL) {
-                                        System.out.println(id.getName());//print the serial port name
-					SerialPort sp = (SerialPort) id.open(this.getClass().getName(),800);
 
-					sp.setSerialPortParams(4800, SerialPort.DATABITS_8,SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
-                                        
-                                        
+				if (id.getPortType() == CommPortIdentifier.PORT_SERIAL) {
+
+					SerialPort sp = (SerialPort) id.open("SerialExample", 30);
+
+					sp.setSerialPortParams(4800, SerialPort.DATABITS_8,
+							SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+
 					InputStream is = sp.getInputStream();
-                                        //(new Thread(new SerialReader(is))).start();
-                                       
-					
-					BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+					InputStreamReader isr = new InputStreamReader(is);
+					BufferedReader buf = new BufferedReader(isr);
 
 					System.out.println("Scanning port " + sp.getName());
 
-					/*
-					for (int i = 0; i < 10; i++) {
+					// try each port few times before giving up
+					for (int i = 0; i < 5; i++) {
 						try {
-							//String data = buf.readLine();
-							if (SentenceValidator.isValid(buf.toString())) {
+							String data = buf.readLine();
+							if (SentenceValidator.isValid(data)) {
 								System.out.println("NMEA data found!");
 								return sp;
 							}
 						} catch (Exception ex) {
 							ex.printStackTrace();
 						}
-					}*/
+					}
 					is.close();
-					//isr.close();
+					isr.close();
 					buf.close();
-                                    return sp;
 				}
 			}
 			System.out.println("NMEA data was not found..");
-                   
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-                
+
 		return null;
-                                        
 	}
 
 	/**
@@ -131,14 +147,14 @@ public class SerialPortExample implements SentenceListener {
 	 */
 	private void init() {
 		try {
-			SerialPort sp = getSerialPort();
+			SerialPort sp = getSerialPort();//calling fuction above
 
-			
+			if (sp != null) {
 				InputStream is = sp.getInputStream();
 				SentenceReader sr = new SentenceReader(is);
 				sr.addSentenceListener(this);
 				sr.start();
-			
+			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -150,40 +166,7 @@ public class SerialPortExample implements SentenceListener {
 	 * 
 	 * @param args None
 	 */
-    public static class SerialReader implements Runnable 
-     {
-        InputStream in ;
-        InputStreamReader isr ;
-        BufferedReader buf ;
-        public SerialReader ( InputStream in )
-        {
-            this.in = in;
-        }
-        
-        public void run ()
-        {
-            byte[] buffer = new byte[1024];
-            int len = -1;
-           
-            buf = new BufferedReader(new InputStreamReader(in));
-	
-            try
-            {
-                while ( ( len = this.in.read(buffer)) > -1 )
-                {
-                    System.out.print(new String(buffer,0,len) );
-                    System.out.print("hi");
-                }
-            }
-            catch ( IOException e )
-            {
-                e.printStackTrace();
-            }            
-        }
-    }
 	public static void main(String[] args) {
-            System.loadLibrary("rxtxSerial");
 		new SerialPortExample();
 	}
-    
 }

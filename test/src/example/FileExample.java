@@ -18,7 +18,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Java Marine API. If not, see <http://www.gnu.org/licenses/>.
  */
-package test;
+package example;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -93,7 +93,6 @@ public class FileExample implements SentenceListener {
 		// also cast to PositionSentence if interested only in position data.
 		// When receiving all sentences without filtering, you should check the
 		// sentence type before casting (e.g. with Sentence.getSentenceId()).
-                System.out.println(event.toString());
 		GGASentence s = (GGASentence) event.getSentence();
 
 		// Do something with sentence data..
@@ -107,16 +106,14 @@ public class FileExample implements SentenceListener {
 	 * @param args Command-line arguments
 	 */
 	public static void main(String[] args) {
-                /*
+
 		if (args.length != 1) {
 			System.out.println("Example usage:\njava FileExample nmea.log");
 			System.exit(1);
 		}
-                */
+
 		try {
-                    File file = new File("");
-                    System.out.println(file.getAbsolutePath());
-			new FileExample(new File("nmea4.txt"));
+			new FileExample(new File(args[0]));
 			System.out.println("Running, press CTRL-C to stop..");
 		} catch (IOException e) {
 			e.printStackTrace();

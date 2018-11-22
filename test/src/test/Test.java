@@ -25,8 +25,12 @@ public class Test {
     /**
      * @param args the command line arguments
      */
+    static String GPGGA_Test = "$GPGSV,3,3,11,23,54,026,00,26,09,046,00,30,20,219,00*49";
     public static void main(String[] args) {
         // TODO code application logic here
+        NMEA nmea = new NMEA();
+        nmea.parse(GPGGA_Test);
+        System.out.println(nmea.position);
     }
     
 }
