@@ -2,3 +2,4 @@
 /test/dist/
 /test/nbproject
 /test/nbproject/project.properties
+*.properties
