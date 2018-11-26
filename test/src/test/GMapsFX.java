@@ -54,7 +54,7 @@ public void start(Stage stage) throws Exception {
     stage.setScene(scene);
     stage.show();
 }
-@Override
+
 public void mapInitialized() {
     //Set the initial properties of the map.
     MapOptions mapOptions = new MapOptions();
