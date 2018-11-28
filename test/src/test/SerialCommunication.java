@@ -29,7 +29,7 @@ import net.sf.marineapi.nmea.sentence.GLLSentence;
  * @author Hanna Nabil
  */
 public class SerialCommunication  {
-    private SentenceReader reader;
+
     SentenceParser parser;
     InputStream is;
     BufferedReader buf;

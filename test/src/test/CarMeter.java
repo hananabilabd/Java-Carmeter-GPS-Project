@@ -37,6 +37,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import net.sf.marineapi.nmea.parser.SentenceFactory;
 import net.sf.marineapi.nmea.sentence.GGASentence;
@@ -54,9 +55,12 @@ public class CarMeter extends Application implements MapComponentInitializedList
     SerialCommunication serialComm ;
     MarkerOptions markerOptions;
     Marker marker ;
+    MapOptions mapOptions;
     double i = 0.0001;
-    double latitude=30.0813565,longitude=31.2383316;
-
+    double latitude=30.0813565;double longitude=31.2383316;
+    TextField text_latitude;
+    TextField text_longitude;
+    TextField text_speed;
     @Override
     public void init(){
         try {
@@ -123,45 +127,36 @@ public class CarMeter extends Application implements MapComponentInitializedList
         gridPane.add(button3, 2, 0, 1, 1);
         gridPane.add(gauge, 3, 3, 2, 2);
    
-        Label lattitude = new Label("lattitude :");
-         lattitude.setFont(Font.font("Tahoma", FontWeight.THIN, 20));
-          gridPane.add(lattitude, 2, 10, 1, 1);
-          
-          TextField text = new TextField ();
-          gridPane.add(text, 3, 10, 1, 1);
+        Label label_lattitude = new Label("lattitude :");
+         label_lattitude.setFont(Font.font("Tahoma", FontWeight.THIN, 20));
+          gridPane.add(label_lattitude, 2, 10, 1, 1);
+          text_latitude = new TextField ();
+          gridPane.add(text_latitude, 3, 10, 1, 1);
         
-         Label longitude = new Label("longitude :");
-         longitude.setFont(Font.font("Tahoma", FontWeight.THIN,20));
-         gridPane.add(longitude, 2, 15, 1, 1);
-          TextField text2 = new TextField ();
-          gridPane.add(text2, 3, 15, 1, 1);
+         Label label_longitude = new Label("longitude :");
+         label_longitude.setFont(Font.font("Tahoma", FontWeight.THIN,20));
+         gridPane.add(label_longitude, 2, 15, 1, 1);
+          text_longitude = new TextField ();
+          gridPane.add(text_longitude, 3, 15, 1, 1);
          
          Label speed = new Label("Speed :");
          speed.setFont(Font.font("Tahoma", FontWeight.THIN, 20));
          gridPane.add(speed, 2, 20, 1, 1);
-          TextField text3 = new TextField ();
-          gridPane.add(text3, 3, 20, 1, 1);
+          text_speed = new TextField ();
+          gridPane.add(text_speed, 3, 20, 1, 1);
           
-          gridPane.setGridLinesVisible(true);
+          //gridPane.setGridLinesVisible(true);
  //__________________________________________________________________________________________
           
           HBox hbox = new HBox();
           mapView = new GoogleMapView();
         mapView.addMapInializedListener(this);
  
-        BorderPane borderPane = new BorderPane();
-        //borderPane.getChildren().addAll();
-      
-        borderPane.setLeft(mapView);
-        BorderPane border = new BorderPane();
-   
-        
+    
         hbox.getChildren().addAll(mapView,gridPane);
-        
+        primaryStage.setOnCloseRequest(event -> System.exit(0));
         Scene scene = new Scene(hbox,1300,600);
         
-        
-
         primaryStage.setTitle("CarMeter");
         primaryStage.getIcons().add(new Image("maps.png"));
         primaryStage.setScene(scene);
@@ -170,7 +165,7 @@ public class CarMeter extends Application implements MapComponentInitializedList
     @Override
     public void mapInitialized() {
     //Set the initial properties of the map.
-    MapOptions mapOptions = new MapOptions();
+    mapOptions = new MapOptions();
     mapOptions.center(new LatLong(30.08056024, 31.23717248))
             .mapType(MapTypeIdEnum.ROADMAP)
             .overviewMapControl(false)
@@ -183,13 +178,13 @@ public class CarMeter extends Application implements MapComponentInitializedList
 
     map = mapView.createMap(mapOptions);
     markerOptions = new MarkerOptions();
-                    markerOptions.position( new LatLong(latitude, longitude) )
-                                .visible(Boolean.TRUE)
-                                .title("My Marker");
+    markerOptions.position( new LatLong(latitude, longitude) )
+                .visible(Boolean.TRUE)
+                .title("My Marker");
 
-                    marker = new Marker( markerOptions );
-                    map.addMarker(marker);
-                    map.removeMarker(marker);
+    marker = new Marker( markerOptions );
+    map.addMarker(marker);
+    map.removeMarker(marker);
                     
     Thread t = new Thread( () -> {
         while (true){
@@ -197,13 +192,15 @@ public class CarMeter extends Application implements MapComponentInitializedList
                Thread.sleep(2000);
                //System.out.println("Calling showDirections from Java");
                Platform.runLater(() -> {
+                        i+=0.001;
                         map.removeMarker(marker);
                        markerOptions = new MarkerOptions();
-                       markerOptions.position( new LatLong(latitude,longitude) )
+                       markerOptions.position( new LatLong(latitude+i,longitude+i) )
                         .visible(Boolean.TRUE)
                         .title("My Marker");
                          marker = new Marker( markerOptions );
                         map.addMarker(marker);
+                        map.setCenter(new LatLong(latitude+i, longitude+i));
                         
                        });
            } catch( Exception ex ) {
@@ -235,8 +232,12 @@ public class CarMeter extends Application implements MapComponentInitializedList
 				//System.out.println("GLL position: " + gll.getPosition());
                     } else if ("GGA".equals(s.getSentenceId())) {
                             GGASentence gga = (GGASentence) s;
-                            latitude=gga.getAltitude();
-                            longitude = gga.getGeoidalHeight();
+                            //latitude=gga.getPosition().getLatitude();
+                            //longitude = gga.getPosition().getLongitude();
+                            text_latitude.setText(Double.toString( gga.getPosition().getLatitude()));
+                            text_longitude.setText(Double.toString( gga.getPosition().getLongitude()));
+                            //System.out.println("latitude: " + gga.getPosition().getLatitude());
+                            //System.out.println(",longitude: " + gga.getPosition().getLongitude());
                             System.out.println("GGA position: " + gga.getPosition());
                     }
                         
