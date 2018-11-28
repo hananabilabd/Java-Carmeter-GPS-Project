@@ -30,52 +30,15 @@ public class SerialPortExample implements SentenceListener {
 	public SerialPortExample() {
 		init();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see net.sf.marineapi.nmea.event.SentenceListener#readingPaused()
-	 */
-	public void readingPaused() {
-		System.out.println("-- Paused --");
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see net.sf.marineapi.nmea.event.SentenceListener#readingStarted()
-	 */
-	public void readingStarted() {
-		System.out.println("-- Started --");
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see net.sf.marineapi.nmea.event.SentenceListener#readingStopped()
-	 */
-	public void readingStopped() {
-		System.out.println("-- Stopped --");
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * net.sf.marineapi.nmea.event.SentenceListener#sentenceRead(net.sf.marineapi
-	 * .nmea.event.SentenceEvent)
-	 */
+	public void readingPaused() {System.out.println("-- Paused --");}
+	public void readingStarted() {System.out.println("-- Started --");}
+	public void readingStopped() {System.out.println("-- Stopped --");}
 	public void sentenceRead(SentenceEvent event) {
-		// here we receive each sentence read from the port
-		//System.out.println(event.getSentence());
-                System.out.print("lol");
                 GGASentence s = (GGASentence) event.getSentence();
-		// Do something with sentence data..
 		System.out.println(s.getPosition());
 	}
 
-	/**
-	 * Scan serial ports for NMEA data.
-	 * 
-	 * @return SerialPort from which NMEA data was found, or null if data was
-	 *         not found in any of the ports.
-	 */
+	
 	private SerialPort getSerialPort() {
 		try {
 			Enumeration<?> e = CommPortIdentifier.getPortIdentifiers();

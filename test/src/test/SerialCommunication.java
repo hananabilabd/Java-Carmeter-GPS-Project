@@ -1,3 +1,4 @@
+
 package test;
 import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
@@ -12,6 +13,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Enumeration;
 import net.sf.marineapi.nmea.event.SentenceEvent;
 import net.sf.marineapi.nmea.event.SentenceListener;
 import net.sf.marineapi.nmea.io.SentenceReader;
@@ -26,43 +28,46 @@ import net.sf.marineapi.nmea.sentence.GLLSentence;
  *
  * @author Hanna Nabil
  */
-public class TwoWaySerialComm implements SentenceListener {
+public class SerialCommunication  {
     private SentenceReader reader;
     SentenceParser parser;
     InputStream is;
     BufferedReader buf;
     int flag =0;
     String temp = null;
-  
-    //NMEA nmea ;
-    public void readingPaused() {System.out.println("-- Paused --");}
-	public void readingStarted() {System.out.println("-- Started --");}
-
-	public void readingStopped() {System.out.println("-- Stopped --");}
-
-	public void sentenceRead(SentenceEvent event) {
-
-		// Safe to cast as we are registered only for GGA updates. Could
-		// also cast to PositionSentence if interested only in position data.
-		// When receiving all sentences without filtering, you should check the
-		// sentence type before casting (e.g. with Sentence.getSentenceId()).
-                
-		//GGASentence s = (GGASentence) event.getSentence();
-		
-		//System.out.println(s.getPosition());
-                //System.out.println(event.getSentence());
-                System.out.println(event.getSentence().toString());
-                
-	}
+    String portName;
     
-     public TwoWaySerialComm()
+     public SerialCommunication()
     {
         super();
-        
     }
     
-    void connect ( String portName ) throws Exception
+     void connect () throws Exception
     {
+        Enumeration<?> e = CommPortIdentifier.getPortIdentifiers();
+        while (e.hasMoreElements()) {
+                        CommPortIdentifier portIdentifier = (CommPortIdentifier) e.nextElement();
+                        if ( portIdentifier.isCurrentlyOwned() )
+                        {
+                            System.out.println("Error: Port is currently in use");
+                        }
+                        else{
+                            if (portIdentifier.getPortType() == CommPortIdentifier.PORT_SERIAL) {//only serial ports will be handled
+                                    portName = portIdentifier.getName();
+                                    System.out.println(portName);//print the serial port name
+                                    
+                                    SerialPort sp = (SerialPort) portIdentifier.open(this.getClass().getName(),2000);
+                                    sp.setSerialPortParams(19200, SerialPort.DATABITS_8,SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+
+                                    InputStream in = sp.getInputStream();
+                                    (new Thread(new SerialReader(in))).start();
+                                    //Thread th = new Thread(new ReadLine1());
+                                    //th.start();
+                            }
+                        }                   
+                                
+			}
+        /*              
         CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
         if ( portIdentifier.isCurrentlyOwned() )
         {
@@ -71,7 +76,6 @@ public class TwoWaySerialComm implements SentenceListener {
         else
         {
             CommPort commPort = portIdentifier.open(this.getClass().getName(),2000);
-            
             if ( commPort instanceof SerialPort )
             {
                 SerialPort serialPort = (SerialPort) commPort;
@@ -87,30 +91,22 @@ public class TwoWaySerialComm implements SentenceListener {
             {
                 System.out.println("Error: Only serial ports are handled by this example.");
             }
-        }     
+        }*/     
     }
-    void inialize() throws IOException{
- 
-         reader = new SentenceReader(is);
-         reader.setInputStream(is);
-        //reader.addSentenceListener( this);
-        //reader.addSentenceListener(this, SentenceId.GGA);
-       
-	reader.start();
-    }
-    class ReadLine implements Runnable 
+     
+     class ReadLine1 implements Runnable 
     {
         public void run ()
         {   while(true)
             {
             try {
-                while(buf != null &&(temp = buf.readLine()) != null){
-                        //System.out.println(temp );
-                       
+                while(buf != null &&((temp = buf.readLine()) != null)){
+                        System.out.println(temp );
+                      
                     SentenceFactory sf = SentenceFactory.getInstance();
                     Sentence s= sf.createParser(temp);
-                    String id =s.getSentenceId();
-                     System.out.println(id );
+                    //String id =s.getSentenceId();
+                     //System.out.println(id );
                     if("GLL".equals(s.getSentenceId())) {
 				GLLSentence gll = (GLLSentence) s;
 				System.out.println("GLL position: " + gll.getPosition());
@@ -126,9 +122,9 @@ public class TwoWaySerialComm implements SentenceListener {
                     ex.printStackTrace();
                 }
             }      
-        
         }
     }
+  
      class SerialReader implements Runnable 
     {
         InputStream in;
@@ -143,9 +139,6 @@ public class TwoWaySerialComm implements SentenceListener {
         {
             byte[] buffer = new byte[1024];
             int len = -1;
-            //NMEA nmea = new NMEA();
-      
-            
             try
             {
                 while (( len = this.in.read(buffer)) > -1 )
@@ -161,12 +154,6 @@ public class TwoWaySerialComm implements SentenceListener {
                     buf = new BufferedReader(inputString);
                     //System.out.println(str);//new String(buffer,int offset,int length)
                    
-                 
-                    
-                    
-                    
-                    //nmea.parse(GPGGA_str);
-                    //System.out.println(nmea.position);
                   		
                 }
                 System.out.println("ByeBye");
@@ -177,16 +164,17 @@ public class TwoWaySerialComm implements SentenceListener {
             } 
         }
     }
-    
+    /*
     public static void main ( String[] args )
     {
         try
         {
-            (new TwoWaySerialComm()).connect("COM15");
+            (new SerialCommunication()).connect();
         }
         catch ( Exception e )
         {
             e.printStackTrace();
         }
     }
+*/
 }

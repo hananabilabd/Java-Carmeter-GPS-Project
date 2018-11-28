@@ -47,7 +47,7 @@ public void start(Stage stage) throws Exception {
     //the map has been initialized, at which point we can then begin manipulating it.
     mapView = new GoogleMapView();
     mapView.addMapInializedListener(this);
-  Button btn = new Button("Hello");
+    Button btn = new Button("Hello");
      BorderPane borderPane = new BorderPane();
         //borderPane.getChildren().addAll();
         borderPane.setRight(btn);
@@ -86,6 +86,7 @@ public void start(Stage stage) throws Exception {
     Marker marker = new Marker( markerOptions );
 
     map.addMarker(marker);
+    map.removeMarker(marker);
 
 }
 
