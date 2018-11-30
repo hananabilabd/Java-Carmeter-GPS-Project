@@ -266,8 +266,10 @@ public class CarMeter extends Application implements MapComponentInitializedList
                     }
                     else if ("GGA".equals(s.getSentenceId())) {
                             GGASentence gga = (GGASentence) s;
+
                             latitude=gga.getPosition().getLatitude();
                             longitude = gga.getPosition().getLongitude();
+
                             text_latitude.setText(Double.toString( latitude));
                             text_longitude.setText(Double.toString( longitude));
                             //System.out.println("latitude: " + gga.getPosition().getLatitude());
