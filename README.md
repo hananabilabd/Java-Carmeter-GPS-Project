@@ -23,9 +23,9 @@
 2.  Copy [gps.bat](https://github.com/hananabilabd/Java-Carmeter-GPS-Project/blob/master/gps.bat) to (ADB Folder) then create a shortcut of this gps.bat to desktop to be accessed easily.
 
 ### Finally 
- 1.Install [JDK 8 x86 version](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) as there are problem inversion x64 of  rxtx library 
+1.  Install [JDK 8 x86 version](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) as there are problem inversion x64 of  rxtx library 
 2.  Open netbeans.conf in C:\Program Files\NetBeans 8.2\etc
-3.  Change the following line netbeans_jdkhome="put you jdk x86 here"
+3.  Change the following line `netbeans_jdkhome="put you jdk x86 here"`
 4.  Open netbeans and run Carmeter.java
 
 here is the description of each term of the speed ,, assume that the speed is this:
