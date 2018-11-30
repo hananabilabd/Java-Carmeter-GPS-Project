@@ -42,6 +42,7 @@ import javafx.stage.WindowEvent;
 import net.sf.marineapi.nmea.parser.SentenceFactory;
 import net.sf.marineapi.nmea.sentence.GGASentence;
 import net.sf.marineapi.nmea.sentence.GLLSentence;
+import net.sf.marineapi.nmea.sentence.RMCSentence;
 import net.sf.marineapi.nmea.sentence.Sentence;
 import net.sf.marineapi.nmea.sentence.SentenceValidator;
 
@@ -57,10 +58,11 @@ public class CarMeter extends Application implements MapComponentInitializedList
     Marker marker ;
     MapOptions mapOptions;
     double i = 0.0001;
-    double latitude=30.0813565;double longitude=31.2383316;
+    double latitude=30.0813565;double longitude=31.2383316; double speed =0;
     TextField text_latitude;
     TextField text_longitude;
     TextField text_speed;
+    Gauge gauge;
     Thread thread_readLine;
     int flag_position=0;
     
@@ -121,7 +123,7 @@ public class CarMeter extends Application implements MapComponentInitializedList
             }
         });
 
-        Gauge gauge = GaugeBuilder.create()
+        gauge = GaugeBuilder.create()
 //                         .skin(ModernSkin.class)
                          .sections(new Section(85, 90, "", Color.rgb(204, 0, 0, 0.5)),
                                    new Section(90, 95, "", Color.rgb(204, 0, 0, 0.75)),
@@ -157,9 +159,9 @@ public class CarMeter extends Application implements MapComponentInitializedList
           text_longitude.setEditable(false);
           gridPane.add(text_longitude, 3, 15, 1, 1);
          
-         Label speed = new Label("Speed :");
-         speed.setFont(Font.font("Tahoma", FontWeight.THIN, 20));
-         gridPane.add(speed, 2, 20, 1, 1);
+         Label label_speed = new Label("Speed :");
+         label_speed.setFont(Font.font("Tahoma", FontWeight.THIN, 20));
+         gridPane.add(label_speed, 2, 20, 1, 1);
           text_speed = new TextField ();
           text_speed.setEditable(false);
           gridPane.add(text_speed, 3, 20, 1, 1);
@@ -221,6 +223,7 @@ public class CarMeter extends Application implements MapComponentInitializedList
                          marker = new Marker( markerOptions );
                         map.addMarker(marker);
                         map.setCenter(new LatLong(latitude, longitude));
+                        gauge.setValue(speed);
                    }
                    else {map.clearMarkers();
                    }
@@ -248,11 +251,20 @@ public class CarMeter extends Application implements MapComponentInitializedList
                     Sentence s= sf.createParser(serialComm.temp);
                     //String id =s.getSentenceId();
                     //System.out.println(id );
-    
-                    if("GLL".equals(s.getSentenceId())) {
+                     
+                     
+                    if("RMC".equals(s.getSentenceId())) { //or RMA
+				RMCSentence rmc= (RMCSentence) s;
+                                speed =rmc.getSpeed();
+                                System.out.println("RMC speed: " + rmc.getSpeed());
+                                
+                                text_speed.setText(Double.toString(rmc.getSpeed()));
+				//System.out.println("GLL position: " + gll.getPosition());
+                    }else if("GLL".equals(s.getSentenceId())) {
 				GLLSentence gll = (GLLSentence) s;
 				//System.out.println("GLL position: " + gll.getPosition());
-                    } else if ("GGA".equals(s.getSentenceId())) {
+                    }
+                    else if ("GGA".equals(s.getSentenceId())) {
                             GGASentence gga = (GGASentence) s;
                             //latitude=gga.getPosition().getLatitude();
                             //longitude = gga.getPosition().getLongitude();
