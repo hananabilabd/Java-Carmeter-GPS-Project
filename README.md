@@ -35,6 +35,8 @@ Their jars are all included (no need to download anything other than this reposi
 3.  [Marine API](https://github.com/ktuukkan/marine-api)
 4.  [RXTXCOMM](http://rxtx.qbang.org/wiki/index.php/Main_Page)
 
+you may refer to this [website](http://www.catb.org/gpsd/NMEA.html#_rmc_recommended_minimum_navigation_information) to see Nmea sentence structure
+
 
 here is the description of each term of the speed ,, assume that the speed is this:
 $GPGGA,181908.00,3404.7041778,N,07044.3966270,W,4,13,1.00,495.144,M,29.200,M,0.10,0000*40
