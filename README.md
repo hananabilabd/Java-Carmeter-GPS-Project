@@ -28,6 +28,14 @@
 3.  Change the following line `netbeans_jdkhome="put you jdk x86 here"`
 4.  Open netbeans and run Carmeter.java
 
+## Dependancies and packages used 
+Their jars are all included (no need to download anything other than this repository).
+1.  [GMapsFX](https://github.com/rterp/GMapsFX)
+2.  [Medusa](https://github.com/HanSolo/Medusa)
+3.  [Marine API](https://github.com/ktuukkan/marine-api)
+4.  [RXTXCOMM](http://rxtx.qbang.org/wiki/index.php/Main_Page)
+
+
 here is the description of each term of the speed ,, assume that the speed is this:
 $GPGGA,181908.00,3404.7041778,N,07044.3966270,W,4,13,1.00,495.144,M,29.200,M,0.10,0000*40
 1- GP --> represent GPS and it might be GL which denotes GLONASS (Global Navigation Satellite System)
