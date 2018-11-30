@@ -269,7 +269,6 @@ public class CarMeter extends Application implements MapComponentInitializedList
 
                             latitude=gga.getPosition().getLatitude();
                             longitude = gga.getPosition().getLongitude();
-
                             text_latitude.setText(Double.toString( latitude));
                             text_longitude.setText(Double.toString( longitude));
                             //System.out.println("latitude: " + gga.getPosition().getLatitude());
