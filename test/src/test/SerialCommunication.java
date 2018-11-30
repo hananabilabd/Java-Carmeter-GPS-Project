@@ -46,6 +46,7 @@ public class SerialCommunication  {
     {
         Enumeration<?> e = CommPortIdentifier.getPortIdentifiers();
         while (e.hasMoreElements()) {
+            System.out.println(e);
                         CommPortIdentifier portIdentifier = (CommPortIdentifier) e.nextElement();
                         if ( portIdentifier.isCurrentlyOwned() )
                         {
@@ -94,36 +95,7 @@ public class SerialCommunication  {
         }*/     
     }
      
-     class ReadLine1 implements Runnable 
-    {
-        public void run ()
-        {   while(true)
-            {
-            try {
-                while(buf != null &&((temp = buf.readLine()) != null)){
-                        System.out.println(temp );
-                      
-                    SentenceFactory sf = SentenceFactory.getInstance();
-                    Sentence s= sf.createParser(temp);
-                    //String id =s.getSentenceId();
-                     //System.out.println(id );
-                    if("GLL".equals(s.getSentenceId())) {
-				GLLSentence gll = (GLLSentence) s;
-				System.out.println("GLL position: " + gll.getPosition());
-                    } else if ("GGA".equals(s.getSentenceId())) {
-                            GGASentence gga = (GGASentence) s;
-                            System.out.println("GGA position: " + gga.getPosition());
-                    }
-                    
-                    //if (SentenceValidator.isValid(temp)) {
-                          //}
-                }
-            } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }      
-        }
-    }
+    
   
      class SerialReader implements Runnable 
     {
@@ -143,11 +115,11 @@ public class SerialCommunication  {
             {
                 while (( len = this.in.read(buffer)) > -1 )
                 {
-                   is = new ByteArrayInputStream(buffer);
+                   //is = new ByteArrayInputStream(buffer);
                    //is = this.in;
                    
                     String str =new String(buffer,0,len);
-                  
+                    
                     if (str.equals("$")){flag =1;continue;}// this is beacuse when handling GGA sentence the mobile sends a newline $ then the GGA sentence
                     if (flag ==1){str="$"+str;flag =0;}
                     Reader inputString = new StringReader(str);

@@ -253,7 +253,7 @@ public class CarMeter extends Application implements MapComponentInitializedList
                     //System.out.println(id );
                      
                      
-                    if("RMC".equals(s.getSentenceId())) { //or RMA
+                    if("RMC".equals(s.getSentenceId())) { 
 				RMCSentence rmc= (RMCSentence) s;
                                 speed =rmc.getSpeed();
                                 System.out.println("RMC speed: " + rmc.getSpeed());
@@ -266,10 +266,10 @@ public class CarMeter extends Application implements MapComponentInitializedList
                     }
                     else if ("GGA".equals(s.getSentenceId())) {
                             GGASentence gga = (GGASentence) s;
-                            //latitude=gga.getPosition().getLatitude();
-                            //longitude = gga.getPosition().getLongitude();
-                            text_latitude.setText(Double.toString( gga.getPosition().getLatitude()));
-                            text_longitude.setText(Double.toString( gga.getPosition().getLongitude()));
+                            latitude=gga.getPosition().getLatitude();
+                            longitude = gga.getPosition().getLongitude();
+                            text_latitude.setText(Double.toString( latitude));
+                            text_longitude.setText(Double.toString( longitude));
                             //System.out.println("latitude: " + gga.getPosition().getLatitude());
                             //System.out.println(",longitude: " + gga.getPosition().getLongitude());
                             System.out.println("GGA position: " + gga.getPosition());
