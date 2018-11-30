@@ -13,7 +13,7 @@
 3.  Click apply then close this windows 
 
 ## Installation of [StandAlone ADB](https://github.com/hananabilabd/Java-Carmeter-GPS-Project/blob/master/Dependancies/minimal_adb_fastboot_v1.4.3_setup.exe)
-1.  Install this .exe
+1.  Install this [.exe](https://github.com/hananabilabd/Java-Carmeter-GPS-Project/blob/master/Dependancies/minimal_adb_fastboot_v1.4.3_setup.exe)
 
 ## Installation of [com2tcp](https://github.com/hananabilabd/Java-Carmeter-GPS-Project/tree/master/Dependancies/com2tcp-1.3.0.0-386)
 1.  Copy all items in this folder to where ADB is installed (propably C:\Program Files (x86)\Minimal ADB and Fastboot)
