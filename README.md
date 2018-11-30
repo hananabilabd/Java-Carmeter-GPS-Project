@@ -1,5 +1,6 @@
 # Java Carmeter GPS Project
-
+   Connecting NMEA data from android phone to a PC via USB
+   
 ## **How to use**
 ### First
 1.  Download this Repository to your local machine
