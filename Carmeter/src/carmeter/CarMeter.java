@@ -17,6 +17,9 @@ import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.GaugeBuilder;
 import eu.hansolo.medusa.Section;
 import eu.hansolo.medusa.skins.ModernSkin;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -38,6 +41,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import net.sf.marineapi.nmea.parser.SentenceFactory;
 import net.sf.marineapi.nmea.sentence.GGASentence;
@@ -54,6 +59,7 @@ public class CarMeter extends Application implements MapComponentInitializedList
     GoogleMapView mapView;
     GoogleMap map;
     SerialCommunication serialComm ;
+    AudioPlayer audioPlayer;
     MarkerOptions markerOptions;
     Marker marker ;
     MapOptions mapOptions;
@@ -64,14 +70,49 @@ public class CarMeter extends Application implements MapComponentInitializedList
     TextField text_speed;
     Gauge gauge;
     Thread thread_readLine;
+    Thread thread_audioPlayer;
     int flag_position=0;
-    
+    public void alarmON(){
+       
+        try {
+                    audioPlayer.restart();
+                    System.out.println("|||");
+                } catch (IOException ex) {
+                    Logger.getLogger(CarMeter.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (LineUnavailableException ex) {
+                    Logger.getLogger(CarMeter.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (UnsupportedAudioFileException ex) {
+                    Logger.getLogger(CarMeter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        
+    }
+    public void alarmOFF(){
+        
+      
+            try {
+                    audioPlayer.stop();
+                } catch (UnsupportedAudioFileException ex) {
+                    Logger.getLogger(CarMeter.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(CarMeter.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (LineUnavailableException ex) {
+                    Logger.getLogger(CarMeter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        
+    }
     @Override
     public void init(){
         try {
             serialComm=new SerialCommunication();
             serialComm.connect();
             thread_readLine = new Thread(new ReadLine());
+            audioPlayer =  new AudioPlayer();
+            thread_audioPlayer = new Thread(new Runnable(){
+                @Override
+                public void run(){
+                    alarmOFF();
+                }
+            });
             //thread_readLine.start();
          
         } catch (Exception ex) {
@@ -86,7 +127,7 @@ public class CarMeter extends Application implements MapComponentInitializedList
         Button button2 = new Button("stop");
         button2.setDisable(true);
         Button button3 = new Button("Button 3");
-        
+        Button button4 = new Button("stop");
       button1.setOnAction(new EventHandler<ActionEvent>() {//start button
 
             @Override
@@ -119,10 +160,17 @@ public class CarMeter extends Application implements MapComponentInitializedList
 
             @Override
             public void handle(ActionEvent event) {
+               alarmON();
                 
             }
         });
+         button4.setOnAction(new EventHandler<ActionEvent>() {
 
+            @Override
+            public void handle(ActionEvent event) {
+                alarmOFF();
+            }
+        });
         gauge = GaugeBuilder.create()
 //                         .skin(ModernSkin.class)
                          .sections(new Section(85, 90, "", Color.rgb(204, 0, 0, 0.5)),
@@ -143,6 +191,7 @@ public class CarMeter extends Application implements MapComponentInitializedList
         gridPane.add(button1, 0, 0, 1, 1);
         gridPane.add(button2, 1, 0, 1, 1);
         gridPane.add(button3, 2, 0, 1, 1);
+        gridPane.add(button4, 3, 0, 1, 1);
         gridPane.add(gauge, 3, 3, 2, 2);
    
         Label label_lattitude = new Label("lattitude :");
@@ -259,6 +308,9 @@ public class CarMeter extends Application implements MapComponentInitializedList
                                 System.out.println("RMC speed: " + rmc.getSpeed());
                                 
                                 text_speed.setText(Double.toString(rmc.getSpeed()));
+                                if (speed >1){alarmON();}
+                                else {alarmOFF();}
+                                
 				//System.out.println("GLL position: " + gll.getPosition());
                     }else if("GLL".equals(s.getSentenceId())) {
 				GLLSentence gll = (GLLSentence) s;
