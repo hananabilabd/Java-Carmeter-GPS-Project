@@ -255,10 +255,10 @@ public class CarMeter extends Application implements MapComponentInitializedList
                      
                     if("RMC".equals(s.getSentenceId())) { 
 				RMCSentence rmc= (RMCSentence) s;
-                                speed =rmc.getSpeed();
-                                System.out.println("RMC speed: " + rmc.getSpeed());
+                                speed =1.852*rmc.getSpeed();
+                                System.out.println("RMC speed: " + speed);
                                 
-                                text_speed.setText(Double.toString(rmc.getSpeed()));
+                                text_speed.setText(Double.toString(speed));
 				//System.out.println("GLL position: " + gll.getPosition());
                     }else if("GLL".equals(s.getSentenceId())) {
 				GLLSentence gll = (GLLSentence) s;
