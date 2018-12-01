@@ -1,5 +1,5 @@
 
-package test;
+package carmeter;
 import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
@@ -46,6 +46,7 @@ public class SerialCommunication  {
     {
         Enumeration<?> e = CommPortIdentifier.getPortIdentifiers();
         while (e.hasMoreElements()) {
+            System.out.println(e);
                         CommPortIdentifier portIdentifier = (CommPortIdentifier) e.nextElement();
                         if ( portIdentifier.isCurrentlyOwned() )
                         {
@@ -114,11 +115,15 @@ public class SerialCommunication  {
             {
                 while (( len = this.in.read(buffer)) > -1 )
                 {
+<<<<<<< HEAD:test/src/test/SerialCommunication.java
                   // is = new ByteArrayInputStream(buffer);
+=======
+                   //is = new ByteArrayInputStream(buffer);
+>>>>>>> b49df0e7e842cc7b3ef102d85b359c3646629482:Carmeter/src/carmeter/SerialCommunication.java
                    //is = this.in;
                    
                     String str =new String(buffer,0,len);
-                  
+                    
                     if (str.equals("$")){flag =1;continue;}// this is beacuse when handling GGA sentence the mobile sends a newline $ then the GGA sentence
                     if (flag ==1){str="$"+str;flag =0;}
                     Reader inputString = new StringReader(str);
