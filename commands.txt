@@ -1,3 +1,5 @@
 adb devices
 adb forward tcp:20175 tcp:50000
 com2tcp --telnet \\.\CNCB0 127.0.0.1 20175
+
+-Djava.library.path=../Dependancies\rxtx-2.1-7-bins-x32\Windows\i368-mingw32
