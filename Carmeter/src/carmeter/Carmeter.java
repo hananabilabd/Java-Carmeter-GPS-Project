@@ -22,6 +22,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -39,6 +40,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -71,36 +73,15 @@ public class Carmeter extends Application implements MapComponentInitializedList
     Gauge gauge;
     Thread thread_readLine;
     int flag_position=0;
-    public void alarmON(){
-        try {
-                    audioPlayer.restart();
-                } catch (IOException ex) {
-                    Logger.getLogger(Carmeter.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (LineUnavailableException ex) {
-                    Logger.getLogger(Carmeter.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (UnsupportedAudioFileException ex) {
-                    Logger.getLogger(Carmeter.class.getName()).log(Level.SEVERE, null, ex);
-                }
-        
-    }
-    public void alarmOFF(){
-            try {
-                    audioPlayer.stop();
-                } catch (UnsupportedAudioFileException ex) {
-                    Logger.getLogger(Carmeter.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(Carmeter.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (LineUnavailableException ex) {
-                    Logger.getLogger(Carmeter.class.getName()).log(Level.SEVERE, null, ex);
-                }
-    }
+    
     @Override
     public void init(){
         try {
-            serialComm=new SerialCommunication();
-            serialComm.connect();
-            thread_readLine = new Thread(new ReadLine());
             audioPlayer =  new AudioPlayer();
+            serialComm=new SerialCommunication();
+            serialComm.connect();//contains thread
+            thread_readLine = new Thread(new ReadLine());
+            
             //thread_readLine.start();
          
         } catch (Exception ex) {
@@ -117,7 +98,6 @@ public class Carmeter extends Application implements MapComponentInitializedList
         Button button3 = new Button("Soun-On");
         Button button4 = new Button("Soun-Off");
       button1.setOnAction(new EventHandler<ActionEvent>() {//start button
-
             @Override
             public void handle(ActionEvent event) {
                 if (thread_readLine.isAlive()==false){
@@ -137,9 +117,9 @@ public class Carmeter extends Application implements MapComponentInitializedList
                 }
                 button2.setDisable(true);
                 button1.setDisable(false);
-            //    text_latitude.clear();
-              //  text_longitude.clear();
-               // text_speed.clear();
+                text_latitude.setText("");
+                text_longitude.setText("");
+                text_speed.setText("");
                 flag_position =0;
             }
         });
@@ -200,7 +180,7 @@ public class Carmeter extends Application implements MapComponentInitializedList
         Label label_lattitude = new Label("lattitude :");
          label_lattitude.setFont(Font.font("Tahoma", FontWeight.THIN, 20));
           gridPane.add(label_lattitude, 2, 15, 1, 1);
-          Text text_latitude = new Text("");
+          text_latitude = new Text("");
        //   text_latitude.setEditable(false);
          
           gridPane.add(text_latitude, 3, 15, 1, 1);
@@ -209,7 +189,7 @@ public class Carmeter extends Application implements MapComponentInitializedList
          label_longitude.setFont(Font.font("Tahoma", FontWeight.THIN,20));
          gridPane.add(label_longitude, 2, 20, 1, 1);
           text_longitude = new Text();
-          //text_longitude.setEditable(false);
+     
           gridPane.add(text_longitude, 3, 20, 1, 1);
          
          Label label_speed = new Label("Speed :");
@@ -237,7 +217,7 @@ public class Carmeter extends Application implements MapComponentInitializedList
  
     
         hbox.getChildren().addAll(mapView,gridPane);
-        primaryStage.setOnCloseRequest(event -> System.exit(0));
+        
         
           Stop[] stops = new Stop[] { new Stop(0, Color.BLUE), new Stop(1, Color.AZURE)}; 
         LinearGradient lg1 = new LinearGradient(0, 0, 0, 0.5, true, CycleMethod.NO_CYCLE, stops);
@@ -250,15 +230,24 @@ public class Carmeter extends Application implements MapComponentInitializedList
          root.getChildren().add(r1); 
          root.getChildren().addAll(hbox);
         
-        Scene scene = new Scene(root, 240, 100);
+        Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/css/css.css").toString());
         //Scene scene = new Scene(hbox,1300,600);
         
         primaryStage.setTitle("CarMeter");
         primaryStage.getIcons().add(new Image("maps.png"));
         primaryStage.setScene(scene);
+        primaryStage.setOnCloseRequest(event -> System.exit(0));//to terminate all non-GUI threads when pressing exit buttons
+        //this to maximize the window to fit our screen
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+        primaryStage.setX(bounds.getMinX());
+        primaryStage.setY(bounds.getMinY());
+        primaryStage.setWidth(bounds.getWidth());
+        primaryStage.setHeight(bounds.getHeight());
         primaryStage.show();
     }
+    //----------------------------------------------------------------------------------------------------------
     @Override
     public void mapInitialized() {
     //Set the initial properties of the map.
@@ -287,7 +276,6 @@ public class Carmeter extends Application implements MapComponentInitializedList
         while (true){
            try {
                Thread.sleep(2000);
-               //System.out.println("Calling showDirections from Java");
                Platform.runLater(() -> {
                    if (flag_position ==1){
                         //i+=0.001;
@@ -332,16 +320,16 @@ public class Carmeter extends Application implements MapComponentInitializedList
                                 System.out.println("RMC speed: " + rmc.getSpeed());
                                 
                                 text_speed.setText(Double.toString(rmc.getSpeed()));
-                                if (speed >1){alarmON();}
+                                if (speed >10){alarmON();}
                                 else {alarmOFF();}
          
                     }
                     else if ("GGA".equals(s.getSentenceId())) {
                             GGASentence gga = (GGASentence) s;
-
                             latitude=gga.getPosition().getLatitude();
                             longitude = gga.getPosition().getLongitude();
-                         //   text_latitude.setText(Double.toString( latitude));
+                         
+                            text_latitude.setText(Double.toString( latitude));
                             text_longitude.setText(Double.toString( longitude));
                             //System.out.println("latitude: " + latitude);
                             //System.out.println(",longitude: " + longitude);
@@ -357,7 +345,29 @@ public class Carmeter extends Application implements MapComponentInitializedList
         
         }
     }
- 
+    public void alarmON(){
+        try {
+                    audioPlayer.restart();
+                } catch (IOException ex) {
+                    Logger.getLogger(Carmeter.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (LineUnavailableException ex) {
+                    Logger.getLogger(Carmeter.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (UnsupportedAudioFileException ex) {
+                    Logger.getLogger(Carmeter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        
+    }
+    public void alarmOFF(){
+            try {
+                    audioPlayer.stop();
+                } catch (UnsupportedAudioFileException ex) {
+                    Logger.getLogger(Carmeter.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Carmeter.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (LineUnavailableException ex) {
+                    Logger.getLogger(Carmeter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+    }
     public static void main(String[] args) {
         
         launch(args);

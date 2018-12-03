@@ -18,7 +18,7 @@ public class SerialCommunication  {
     int flag =0;
     String temp = null;
     String portName;
-    
+    Thread thread_serial;
      public SerialCommunication()
     {
         super();
@@ -40,11 +40,11 @@ public class SerialCommunication  {
                                     
                                     SerialPort sp = (SerialPort) portIdentifier.open(this.getClass().getName(),2000);
                                     sp.setSerialPortParams(19200, SerialPort.DATABITS_8,SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
-
+                                    
                                     InputStream in = sp.getInputStream();
-                                    (new Thread(new SerialReader(in))).start();
-                                    //Thread th = new Thread(new ReadLine1());
-                                    //th.start();
+                                    thread_serial =new Thread(new SerialReader(in));
+                                    thread_serial.start();
+                                    
                             }
                         }                   
                                 
@@ -52,7 +52,11 @@ public class SerialCommunication  {
     }
      
     
-  
+     public void disconnect(){
+         if (thread_serial.isAlive()){
+         thread_serial.stop();
+         }
+     }
      class SerialReader implements Runnable 
     {
         InputStream in;
