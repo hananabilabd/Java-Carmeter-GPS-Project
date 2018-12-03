@@ -32,6 +32,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -207,7 +211,21 @@ public class Carmeter extends Application implements MapComponentInitializedList
     
         hbox.getChildren().addAll(mapView,gridPane);
         primaryStage.setOnCloseRequest(event -> System.exit(0));
-        Scene scene = new Scene(hbox,1300,600);
+        
+          Stop[] stops = new Stop[] { new Stop(0, Color.BLUE), new Stop(1, Color.AZURE)}; 
+        LinearGradient lg1 = new LinearGradient(0, 0, 0, 0.5, true, CycleMethod.NO_CYCLE, stops);
+        
+        Rectangle r1 = new Rectangle(0, 0, 1400, 1000);
+        r1.setId("grad");
+
+       StackPane root = new StackPane();
+        root.setId("grad");
+         root.getChildren().add(r1); 
+         root.getChildren().addAll(hbox);
+        
+        Scene scene = new Scene(root, 240, 100);
+        scene.getStylesheets().add(getClass().getResource("/css/css.css").toString());
+        //Scene scene = new Scene(hbox,1300,600);
         
         primaryStage.setTitle("CarMeter");
         primaryStage.getIcons().add(new Image("maps.png"));
