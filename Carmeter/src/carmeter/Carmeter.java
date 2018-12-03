@@ -109,11 +109,11 @@ public class Carmeter extends Application implements MapComponentInitializedList
    @Override
     public void start(Stage primaryStage) throws Exception {
  
-        Button button1 = new Button("start");
-        Button button2 = new Button("stop");
+        Button button1 = new Button("Start");
+        Button button2 = new Button("Stop");
         button2.setDisable(true);
-        Button button3 = new Button("Button 3");
-        Button button4 = new Button("stop");
+        Button button3 = new Button("Soun-On");
+        Button button4 = new Button("Soun-Off");
       button1.setOnAction(new EventHandler<ActionEvent>() {//start button
 
             @Override
@@ -173,12 +173,27 @@ public class Carmeter extends Application implements MapComponentInitializedList
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(25, 25, 25, 25));
-
+          
+        
+        button1.setId("shiny-orange");
+        button2.setId("shiny-orange");
+        button3.setId("round-red");
+        button4.setId("round-red");
+        button1.setMinHeight(50);
+        button1.setMinWidth(50);
+        button2.setMinHeight(50);
+        button2.setMinWidth(50);
+        button3.setMinHeight(40);
+        button3.setMinWidth(40);
+        button4.setMinHeight(40);
+        button4.setMinWidth(40);
+        
+        
         gridPane.add(button1, 0, 0, 1, 1);
-        gridPane.add(button2, 1, 0, 1, 1);
-        gridPane.add(button3, 2, 0, 1, 1);
-        gridPane.add(button4, 3, 0, 1, 1);
-        gridPane.add(gauge, 3, 3, 2, 2);
+        gridPane.add(button2, 2, 0, 1, 1);
+        gridPane.add(button3, 4, 0, 1, 1);
+        gridPane.add(button4, 6, 0, 1, 1);
+        gridPane.add(gauge, 2, 3, 2, 2);
    
         Label label_lattitude = new Label("lattitude :");
          label_lattitude.setFont(Font.font("Tahoma", FontWeight.THIN, 20));

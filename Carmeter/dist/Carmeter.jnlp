@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" java-vm-args="-Djava.library.path=../Dependancies\rxtx-2.1-7-bins-x32\Windows\i368-mingw32 "  href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="Carmeter.jar" size="133156" download="eager" />
+    <jar href="Carmeter.jar" size="133404" download="eager" />
     <jar href="lib\GMapsFX-2.10.0.jar" size="154471" download="eager" />
     <jar href="lib\Medusa-5.7.jar" size="1403799" download="eager" />
     <jar href="lib\RXTXcomm.jar" size="59464" download="eager" />
