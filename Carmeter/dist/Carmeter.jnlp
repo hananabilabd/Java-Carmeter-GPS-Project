@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="Carmeter.jnlp">
+  <information>
+    <title>Carmeter</title>
+    <vendor>Hanna Nabil</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" java-vm-args="-Djava.library.path=../Dependancies\rxtx-2.1-7-bins-x32\Windows\i368-mingw32 "  href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="Carmeter.jar" size="132292" download="eager" />
+    <jar href="lib\GMapsFX-2.10.0.jar" size="154471" download="eager" />
+    <jar href="lib\Medusa-5.7.jar" size="1403799" download="eager" />
+    <jar href="lib\RXTXcomm.jar" size="59464" download="eager" />
+    <jar href="lib\marineapi-0.10.0.jar" size="193504" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="Carmeter" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="carmeter.Carmeter"  name="Carmeter" />
+  <update check="always"/>
+</jnlp>
