@@ -38,6 +38,7 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -63,9 +64,10 @@ public class Carmeter extends Application implements MapComponentInitializedList
     MapOptions mapOptions;
     double i = 0.0001;
     double latitude=30.0813565;double longitude=31.2383316; double speed =0;
-    TextField text_latitude;
-    TextField text_longitude;
-    TextField text_speed;
+   // TextField text_latitude;
+    Text text_latitude;
+    Text text_longitude;
+    Text text_speed;
     Gauge gauge;
     Thread thread_readLine;
     int flag_position=0;
@@ -135,9 +137,9 @@ public class Carmeter extends Application implements MapComponentInitializedList
                 }
                 button2.setDisable(true);
                 button1.setDisable(false);
-                text_latitude.clear();
-                text_longitude.clear();
-                text_speed.clear();
+            //    text_latitude.clear();
+              //  text_longitude.clear();
+               // text_speed.clear();
                 flag_position =0;
             }
         });
@@ -193,29 +195,39 @@ public class Carmeter extends Application implements MapComponentInitializedList
         gridPane.add(button2, 2, 0, 1, 1);
         gridPane.add(button3, 4, 0, 1, 1);
         gridPane.add(button4, 6, 0, 1, 1);
-        gridPane.add(gauge, 2, 3, 2, 2);
+        gridPane.add(gauge, 2, 4, 2, 2);
    
         Label label_lattitude = new Label("lattitude :");
          label_lattitude.setFont(Font.font("Tahoma", FontWeight.THIN, 20));
-          gridPane.add(label_lattitude, 2, 10, 1, 1);
-          text_latitude = new TextField ();
-          text_latitude.setEditable(false);
-          gridPane.add(text_latitude, 3, 10, 1, 1);
+          gridPane.add(label_lattitude, 2, 15, 1, 1);
+          Text text_latitude = new Text("");
+       //   text_latitude.setEditable(false);
+         
+          gridPane.add(text_latitude, 3, 15, 1, 1);
         
          Label label_longitude = new Label("longitude :");
          label_longitude.setFont(Font.font("Tahoma", FontWeight.THIN,20));
-         gridPane.add(label_longitude, 2, 15, 1, 1);
-          text_longitude = new TextField ();
-          text_longitude.setEditable(false);
-          gridPane.add(text_longitude, 3, 15, 1, 1);
+         gridPane.add(label_longitude, 2, 20, 1, 1);
+          text_longitude = new Text();
+          //text_longitude.setEditable(false);
+          gridPane.add(text_longitude, 3, 20, 1, 1);
          
          Label label_speed = new Label("Speed :");
          label_speed.setFont(Font.font("Tahoma", FontWeight.THIN, 20));
-         gridPane.add(label_speed, 2, 20, 1, 1);
-          text_speed = new TextField ();
-          text_speed.setEditable(false);
-          gridPane.add(text_speed, 3, 20, 1, 1);
+         gridPane.add(label_speed, 2, 25, 1, 1);
+          text_speed = new Text();
+         // text_speed.setEditable(false);
+          gridPane.add(text_speed, 3, 25, 1, 1);
           
+       //    text_latitude.setId("lion-default");
+           text_longitude.setId("lion-default");
+          text_speed.setId("lion-default");
+     
+        
+          
+//          text_longitude.setMinHeight(25);
+//          text_longitude.setMinWidth(10);
+//          
           //gridPane.setGridLinesVisible(true);
  //__________________________________________________________________________________________
           
@@ -329,7 +341,7 @@ public class Carmeter extends Application implements MapComponentInitializedList
 
                             latitude=gga.getPosition().getLatitude();
                             longitude = gga.getPosition().getLongitude();
-                            text_latitude.setText(Double.toString( latitude));
+                         //   text_latitude.setText(Double.toString( latitude));
                             text_longitude.setText(Double.toString( longitude));
                             //System.out.println("latitude: " + latitude);
                             //System.out.println(",longitude: " + longitude);
