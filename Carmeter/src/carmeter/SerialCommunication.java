@@ -28,7 +28,6 @@ public class SerialCommunication  {
     {
         Enumeration<?> e = CommPortIdentifier.getPortIdentifiers();
         while (e.hasMoreElements()) {
-            System.out.println(e);
                         CommPortIdentifier portIdentifier = (CommPortIdentifier) e.nextElement();
                         if ( portIdentifier.isCurrentlyOwned() )
                         {
