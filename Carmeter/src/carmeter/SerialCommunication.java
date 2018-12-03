@@ -1,34 +1,19 @@
 
 package carmeter;
-import gnu.io.CommPort;
+//import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.Enumeration;
-import net.sf.marineapi.nmea.event.SentenceEvent;
-import net.sf.marineapi.nmea.event.SentenceListener;
-import net.sf.marineapi.nmea.io.SentenceReader;
-import net.sf.marineapi.nmea.sentence.GGASentence;
-import net.sf.marineapi.nmea.sentence.SentenceValidator;
-import net.sf.marineapi.nmea.parser.SentenceParser;
-import net.sf.marineapi.nmea.sentence.Sentence;
-import net.sf.marineapi.nmea.sentence.SentenceId;
-import net.sf.marineapi.nmea.parser.*;
-import net.sf.marineapi.nmea.sentence.GLLSentence;
 /**
  *
  * @author Hanna Nabil
  */
 public class SerialCommunication  {
-
-    SentenceParser parser;
-    InputStream is;
     BufferedReader buf;
     int flag =0;
     String temp = null;

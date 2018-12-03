@@ -35,7 +35,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -65,7 +64,6 @@ public class Carmeter extends Application implements MapComponentInitializedList
     TextField text_speed;
     Gauge gauge;
     Thread thread_readLine;
-    Thread thread_audioPlayer;
     int flag_position=0;
     public void alarmON(){
         try {
@@ -282,9 +280,7 @@ public class Carmeter extends Application implements MapComponentInitializedList
                     
                     SentenceFactory sf = SentenceFactory.getInstance();
                     Sentence s= sf.createParser(serialComm.temp);
-                    //String id =s.getSentenceId();
-                    //System.out.println(id );
-                     
+                
                     if("RMC".equals(s.getSentenceId())) { 
 				RMCSentence rmc= (RMCSentence) s;
                                 speed =rmc.getSpeed();
@@ -293,11 +289,7 @@ public class Carmeter extends Application implements MapComponentInitializedList
                                 text_speed.setText(Double.toString(rmc.getSpeed()));
                                 if (speed >1){alarmON();}
                                 else {alarmOFF();}
-                                
-				//System.out.println("GLL position: " + gll.getPosition());
-                    }else if("GLL".equals(s.getSentenceId())) {
-				GLLSentence gll = (GLLSentence) s;
-				//System.out.println("GLL position: " + gll.getPosition());
+         
                     }
                     else if ("GGA".equals(s.getSentenceId())) {
                             GGASentence gga = (GGASentence) s;
@@ -306,12 +298,11 @@ public class Carmeter extends Application implements MapComponentInitializedList
                             longitude = gga.getPosition().getLongitude();
                             text_latitude.setText(Double.toString( latitude));
                             text_longitude.setText(Double.toString( longitude));
-                            //System.out.println("latitude: " + gga.getPosition().getLatitude());
-                            //System.out.println(",longitude: " + gga.getPosition().getLongitude());
+                            //System.out.println("latitude: " + latitude);
+                            //System.out.println(",longitude: " + longitude);
                             System.out.println("GGA position: " + gga.getPosition());
                             flag_position=1;
                     }
-                        
                           }
                 }
             } catch (Exception ex) {
@@ -327,6 +318,5 @@ public class Carmeter extends Application implements MapComponentInitializedList
         launch(args);
     }
 
-    
     
 }
