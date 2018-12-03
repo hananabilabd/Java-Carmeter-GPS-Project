@@ -8,10 +8,6 @@ and open the template in the editor.
     Author     : Sarah Kassem
 */
 
-#txt{
-    
-    -fx-fill: aqua;
-}
 #grad{
 -fx-fill: linear-gradient(blue, aquamarine,blue);
 /*-fx-fill :background-color(blue);*/
@@ -19,8 +15,4 @@ and open the template in the editor.
     -fx-padding: 15;
     -fx-spacing: 10;*/
 
-}
-
-#text{
-    
 }
