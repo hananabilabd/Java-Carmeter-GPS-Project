@@ -19,6 +19,7 @@ public class SerialCommunication  {
     String temp = null;
     String portName;
     Thread thread_serial;
+    SerialPort sp;
      public SerialCommunication()
     {
         super();
@@ -29,6 +30,7 @@ public class SerialCommunication  {
         Enumeration<?> e = CommPortIdentifier.getPortIdentifiers();
         while (e.hasMoreElements()) {
                         CommPortIdentifier portIdentifier = (CommPortIdentifier) e.nextElement();
+                       
                         if ( portIdentifier.isCurrentlyOwned() )
                         {
                             System.out.println("Error: Port is currently in use");
@@ -38,13 +40,14 @@ public class SerialCommunication  {
                                     portName = portIdentifier.getName();
                                     System.out.println(portName);//print the serial port name
                                     
-                                    SerialPort sp = (SerialPort) portIdentifier.open(this.getClass().getName(),2000);
+                                    sp = (SerialPort) portIdentifier.open(this.getClass().getName(),2000);
                                     sp.setSerialPortParams(19200, SerialPort.DATABITS_8,SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
                                     
                                     InputStream in = sp.getInputStream();
+                                  
                                     thread_serial =new Thread(new SerialReader(in));
                                     thread_serial.start();
-                                    
+                                    System.out.println("serial thread started");
                             }
                         }                   
                                 
@@ -55,6 +58,8 @@ public class SerialCommunication  {
      public void disconnect(){
          if (thread_serial.isAlive()){
          thread_serial.stop();
+         sp.close();
+         System.out.println("serial thread terminated");
          }
      }
      class SerialReader implements Runnable 

@@ -2,9 +2,9 @@
 /test/dist/
 /test/nbproject
 /test/nbproject/project.properties
-*.properties
-*.xml
 /Carmeter/nbproject/private/
 /Carmeter/build/
 /Carmeter/dist/
 /JavaApplication5/nbproject/private/
+*.properties
+*.xml

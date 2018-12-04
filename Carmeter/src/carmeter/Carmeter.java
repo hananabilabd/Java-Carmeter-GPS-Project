@@ -79,9 +79,9 @@ public class Carmeter extends Application implements MapComponentInitializedList
         try {
             audioPlayer =  new AudioPlayer();
             serialComm=new SerialCommunication();
-            serialComm.connect();//contains thread
-            thread_readLine = new Thread(new ReadLine());
             
+            thread_readLine = new Thread(new ReadLine());
+        
             //thread_readLine.start();
          
         } catch (Exception ex) {
@@ -95,16 +95,21 @@ public class Carmeter extends Application implements MapComponentInitializedList
         Button button1 = new Button("Start");
         Button button2 = new Button("Stop");
         button2.setDisable(true);
-        Button button3 = new Button("Soun-On");
-        Button button4 = new Button("Soun-Off");
+        Button button3 = new Button("Sound-On");
+        Button button4 = new Button("Sound-Off");
       button1.setOnAction(new EventHandler<ActionEvent>() {//start button
             @Override
             public void handle(ActionEvent event) {
-                if (thread_readLine.isAlive()==false){
-            thread_readLine.start();}
-            else {
-                thread_readLine.resume();
-            }
+                try {
+                    serialComm.connect();//contains thread
+                } catch (Exception ex) {
+                    Logger.getLogger(Carmeter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                    if (thread_readLine.isAlive()==false){
+                            thread_readLine.start();}
+                    else {
+                    thread_readLine.resume();
+                        }
                 button1.setDisable(true);button2.setDisable(false);
             }
         });
@@ -112,6 +117,7 @@ public class Carmeter extends Application implements MapComponentInitializedList
        button2.setOnAction(new EventHandler<ActionEvent>() {//stop button
             @Override
             public void handle(ActionEvent event) {
+                serialComm.disconnect();
                 if (thread_readLine.isAlive()==true){
                     thread_readLine.suspend();
                 }
@@ -312,6 +318,7 @@ public class Carmeter extends Application implements MapComponentInitializedList
                     //System.out.println(serialComm.temp );
                     
                     SentenceFactory sf = SentenceFactory.getInstance();
+                    //if (sf.hasParser(serialComm.temp)){
                     Sentence s= sf.createParser(serialComm.temp);
                 
                     if("RMC".equals(s.getSentenceId())) { 
@@ -336,10 +343,12 @@ public class Carmeter extends Application implements MapComponentInitializedList
                             System.out.println("GGA position: " + gga.getPosition());
                             flag_position=1;
                     }
+                    //}
                           }
                 }
             } catch (Exception ex) {
-                    ex.printStackTrace();
+                    //ex.printStackTrace();
+                    System.out.println("please connect your mobile or make sure or if you are already connected make sure that you have gps now connected on your device");
                 }
             }      
         
