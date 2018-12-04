@@ -1,10 +1,5 @@
-/test/build/
-/test/dist/
-/test/nbproject
-/test/nbproject/project.properties
 /Carmeter/nbproject/private/
 /Carmeter/build/
 /Carmeter/dist/
-/JavaApplication5/nbproject/private/
 *.properties
 *.xml
