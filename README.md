@@ -70,11 +70,11 @@ you may refer to this [website](http://www.catb.org/gpsd/NMEA.html#_rmc_recommen
 `**$GPRMC,123519,A,4807.038,N,01131.000,E,022.4,084.4,230394,003.1,W*6A**`
 1.  *RMC*         --> Recommended Minimum sentence C
 2.  *123519*      --> Fix taken at 12:35:19 UTC
-3.  *A*           --> Status A=active or V=Void
+3.  *A*           --> Navigation receiver warning A = OK, V = warning
 4.  *4807.038,N*  --> Latitude 48 deg 07.038' N
 5.  *01131.000,E* --> Longitude 11 deg 31.000' E
 6.  *022.4*       --> Speed over the ground in knots
 7.  *084.4*       --> Track angle in degrees True
-8.  *230394*      --> Date - 23rd of March 1994
-9.  *003.1,W*     --> Magnetic Variation
-10. _*6A_         --> The checksum data, always begins with *
+8.  *230394*      --> Date - 23rd of March 1994 (Day , Month , Year)
+9.  *003.1,W*     --> Magnetic Variation 3.1 deg West
+10. _*6A_         --> The checksum data & always begins with *
