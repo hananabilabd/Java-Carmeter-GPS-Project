@@ -50,7 +50,7 @@ $GPGGA,181908.00,3404.7041778,N,07044.3966270,W,4,13,1.00,495.144,M,29.200,M,0.1
 6. 13 --> denotes number of satellites used in the coordinate
 7. 1.00 --> denotes the HDOP (horizontal dilution of position)
 8. 495.144,M --> altitud, meters, above sea level 
-9. 29.200,M --> Height of geoid separation (geoid means ocean leve) subtract this from the altitude of the antenna to arrive at the height above Ellipsoid
+9. 29.200,M --> Height of geoid separation (geoid means ocean level) subtract this from the altitude of the antenna to arrive at the height above Ellipsoid
 10. 0.10 --> time in seconds since last DGPS update
 11. 0000 --> DGPS station ID number
 12. *40 --> checksum data 
