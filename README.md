@@ -39,8 +39,8 @@ Their jars are all included (no need to download anything other than this reposi
 you may refer to this [website](http://www.catb.org/gpsd/NMEA.html#_rmc_recommended_minimum_navigation_information) to see Nmea sentence structure
 
 
-# **Here is the description of GPS Sentence ID**
-     ## **Assume those sentences are the output:**
+## Here is the description of GPS Sentence ID
+      **Assume those sentences are the output:**
              **First One is:**
 `**$GPGGA,181908.00,3404.7041778,N,07044.3966270,W,4,13,1.00,495.144,M,29.200,M,0.10,0000*40**` 
 1. *GPGGA*     --> represent GPS and it might be GL which denotes GLONASS (Global Navigation Satellite System)
@@ -79,8 +79,8 @@ you may refer to this [website](http://www.catb.org/gpsd/NMEA.html#_rmc_recommen
 9.  *003.1,W*     --> Magnetic Variation 3.1 deg West
 10. _*6A_         --> The checksum data & always begins with *
 
-## GUI
-
+## Graphical User Interface (GUI)
+![alt text](https://github.com/hananabilabd/Java-Carmeter-GPS-Project/blob/master/Images/gui4.PNG)
 1. Add Medusa library to libraries (Medusa.jar)
 2. Make CSS Package include css.css file (css file include the colors codes for Buttons and linear-gradient for background).
 3. Make 3 Buttons start(to start reading speed and position), stop and sound off (turn off the alarm speed over 20K).
@@ -96,5 +96,5 @@ you may refer to this [website](http://www.catb.org/gpsd/NMEA.html#_rmc_recommen
 13. put your stackPane on scene 
 14. Then put the scene on Stage
 15. Rename the Stage
-16. Make a GPS icone for stage
+16. Make a GPS icon for stage
 
