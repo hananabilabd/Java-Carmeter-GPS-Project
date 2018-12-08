@@ -97,3 +97,4 @@ you may refer to this [website](http://www.catb.org/gpsd/NMEA.html#_rmc_recommen
 14. Then put the scene on Stage
 15. Rename the Stage
 16. Make a GPS icone for stage
+
