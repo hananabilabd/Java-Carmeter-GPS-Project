@@ -39,10 +39,10 @@ Their jars are all included (no need to download anything other than this reposi
 you may refer to this [website](http://www.catb.org/gpsd/NMEA.html#_rmc_recommended_minimum_navigation_information) to see Nmea sentence structure
 
 
-## Here is the description of GPS Sentence ID
+## Here is the description of GPS Sentence
       **Assume those sentences are the output:**
              **First One is:**
-`**$GPGGA,181908.00,3404.7041778,N,07044.3966270,W,4,13,1.00,495.144,M,29.200,M,0.10,0000*40**` 
+**$GPGGA,181908.00,3404.7041778,N,07044.3966270,W,4,13,1.00,495.144,M,29.200,M,0.10,0000*40** 
 1. *GPGGA*     --> represent GPS and it might be GL which denotes GLONASS (Global Navigation Satellite System)
 2. *181908.00* --> Time stamp for UTC (Coordinated Universal Time) 18 hour 19 minute and 08 second , for Egypt +2 which means 20h 19m 08s
 3. *3404.7041778,N*  --> is the latitude in DMM.MMMMM format in degrees, minutes and decimal minutes (34 degree 04.7041778 N)
@@ -58,7 +58,7 @@ you may refer to this [website](http://www.catb.org/gpsd/NMEA.html#_rmc_recommen
 12. _40_   --> checksum data 
 
              **Second One is:**
-`**$GPGLL,4916.45,N,12311.12,W,225444,A,*1D**`
+**$GPGLL,4916.45,N,12311.12,W,225444,A,*1D**
 1. *GLL*        --> Geographic position, Latitude and Longitude
 2. *4916.45,N*  --> Latitude 49 deg. 16.45 min. North
 3. *12311.12,W* --> Longitude 123 deg. 11.12 min. West
@@ -67,7 +67,7 @@ you may refer to this [website](http://www.catb.org/gpsd/NMEA.html#_rmc_recommen
 6. _*1D_        --> checksum data
 
              **Third One is:
-`**$GPRMC,123519,A,4807.038,N,01131.000,E,022.4,084.4,230394,003.1,W*6A**`
+**$GPRMC,123519,A,4807.038,N,01131.000,E,022.4,084.4,230394,003.1,W*6A**
 1.  *RMC*         --> Recommended Minimum sentence C
 2.  *123519*      --> Fix taken at 12:35:19 UTC
 3.  *A*           --> Navigation receiver warning A = OK, V = warning
