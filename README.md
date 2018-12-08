@@ -78,3 +78,17 @@ you may refer to this [website](http://www.catb.org/gpsd/NMEA.html#_rmc_recommen
 8.  *230394*      --> Date - 23rd of March 1994 (Day , Month , Year)
 9.  *003.1,W*     --> Magnetic Variation 3.1 deg West
 10. _*6A_         --> The checksum data & always begins with *
+
+## GUI
+
+1. Add Medusa library to your libraries
+2. Make CSS Package include css.css file (css file include colors of Buttons and linear-gradient for background color).
+3. Make 3 Buttons start, stop and sound off (Alarm for speed over 20K).
+4. Set button Action for each Button
+5. Set color and area for each Button
+6. Set the position for Buttons and gauge
+7. Make 3 Labels (longitude – latitude – Speed)
+8. Make HBox to add Map
+9. Put the scene on Stage
+10. Rename the Stage
+11. Make a GPS icone for stage
