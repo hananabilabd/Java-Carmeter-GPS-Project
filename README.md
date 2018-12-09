@@ -101,3 +101,6 @@ for more information about DGPS you can visit [website](https://racelogic.suppor
 15. Rename the Stage
 16. Make a GPS icon for stage
 
+## Documentation
+
+![alt text](https://github.com/hananabilabd/Java-Carmeter-GPS-Project/blob/master/FlowChart.PNG)
