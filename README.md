@@ -56,6 +56,7 @@ you may refer to this [website](http://www.catb.org/gpsd/NMEA.html#_rmc_recommen
 10. *0.10* --> time in seconds since last DGPS update
 11. *0000* --> DGPS station ID number
 12. _40_   --> checksum data 
+
 ***NOTE:*** DGPS (Differential GPS):  is essentially a system to provide positional corrections to GPS signals. DGPS uses a fixed, known position to adjust real time GPS signals to eliminate pseudorange errors, DGPS corrections improve the accuracy of position data only. it has no effect on results that are based on speed data, such as brake stop results.
 for more information about DGPS you can visit[website](https://racelogic.support/01VBOX_Automotive/01General_Information/Knowledge_Base/How_does_DGPS_(Differential_GPS)_work%3F)
 
@@ -72,7 +73,7 @@ for more information about DGPS you can visit[website](https://racelogic.support
 **$GPRMC,123519,A,4807.038,N,01131.000,E,022.4,084.4,230394,003.1,W*6A**
 1.  *RMC*         --> Recommended Minimum sentence C
 2.  *123519*      --> Fix taken at 12:35:19 UTC (convert according to time zone, for Egypt UTC+2)
-3.  *A*           --> Navigation receiver warning A = OK, V = warning
+3.  *A*           --> Navigation receiver warning A = OK (means that you are getting a signal and things are working), V = warning (means you do not have a signal)
 4.  *4807.038,N*  --> Latitude 48 deg 07.038' minutes Northern Hemishpere
 5.  *01131.000,E* --> Longitude 11 deg 31.000' minutes in Eastern Hemisphere
 6.  *022.4*       --> Speed over the ground in knots
