@@ -1,6 +1,9 @@
 # Java Carmeter GPS Project
    Connecting NMEA data from android phone to a PC via USB
-   
+ <p align="center">
+  <img  src="https://github.com/hananabilabd/Java-Carmeter-GPS-Project/blob/master/Images/FlowChart.PNG">
+</p>
+
 ## **How to use**
 ### First
 1.  Download this Repository to your local machine
@@ -101,6 +104,3 @@ for more information about DGPS you can visit [website](https://racelogic.suppor
 15. Rename the Stage
 16. Make a GPS icon for stage
 
-## Documentation
-
-![alt text](https://github.com/hananabilabd/Java-Carmeter-GPS-Project/blob/master/Images/FlowChart.PNG)
