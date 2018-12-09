@@ -103,4 +103,4 @@ for more information about DGPS you can visit [website](https://racelogic.suppor
 
 ## Documentation
 
-![alt text](https://github.com/hananabilabd/Java-Carmeter-GPS-Project/blob/master/images/FlowChart.PNG)
+![alt text](https://github.com/hananabilabd/Java-Carmeter-GPS-Project/blob/master/Images/FlowChart.PNG)
