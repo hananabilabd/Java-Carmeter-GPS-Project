@@ -58,7 +58,7 @@ you may refer to this [website](http://www.catb.org/gpsd/NMEA.html#_rmc_recommen
 12. _40_   --> checksum data 
 
 ***NOTE:*** DGPS (Differential GPS):  is essentially a system to provide positional corrections to GPS signals. DGPS uses a fixed, known position to adjust real time GPS signals to eliminate pseudorange errors, DGPS corrections improve the accuracy of position data only. it has no effect on results that are based on speed data, such as brake stop results.
-for more information about DGPS you can visit[website](https://racelogic.support/01VBOX_Automotive/01General_Information/Knowledge_Base/How_does_DGPS_(Differential_GPS)_work%3F)
+for more information about DGPS you can visit [website](https://racelogic.support/01VBOX_Automotive/01General_Information/Knowledge_Base/How_does_DGPS_(Differential_GPS)_work%3F)
 
              **Second One is:**
 **$GPGLL,4916.45,N,12311.12,W,225444,A,*1D**
